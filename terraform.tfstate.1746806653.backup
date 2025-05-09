@@ -1,10 +1,37 @@
 {
   "version": 4,
   "terraform_version": "1.11.4",
-  "serial": 14,
+  "serial": 13,
   "lineage": "eda37437-e68b-76d7-54c7-23c2e57a6193",
   "outputs": {},
   "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_route_table",
+      "name": "my_vpc_route_table",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:253472910275:route-table/rtb-0ebbbb1c8696373b3",
+            "id": "rtb-0ebbbb1c8696373b3",
+            "owner_id": "253472910275",
+            "propagating_vgws": [],
+            "route": [],
+            "tags": {},
+            "tags_all": {},
+            "timeouts": null,
+            "vpc_id": "vpc-04c8cf738f9c2eb9a"
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMCJ9",
+          "dependencies": [
+            "aws_vpc.my_vpc"
+          ]
+        }
+      ]
+    },
     {
       "mode": "managed",
       "type": "aws_vpc",
