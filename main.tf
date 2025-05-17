@@ -20,6 +20,7 @@ resource "aws_subnet" "my_public_subnet" {
   tags = {
     Name = "my_public_subnet"
   }
+  depends_on = [ aws_vpc.my_vpc ]
 }
 
 resource "aws_subnet" "my_private_subnet" {
@@ -29,6 +30,7 @@ resource "aws_subnet" "my_private_subnet" {
   tags = {
     Name = "my_private_subnet"
   }
+  depends_on = [ aws_vpc.my_vpc ]
 }
 
 resource "aws_internet_gateway" "my_Internet_gateway" {
@@ -56,12 +58,16 @@ resource "aws_route_table" "my_public_route_table" {
 resource "aws_route_table_association" "my-rt-to-subnet-public" {
   route_table_id = aws_route_table.my_public_route_table.id
   subnet_id = aws_subnet.my_public_subnet.id
+
+  depends_on = [ aws_subnet.my_public_subnet ]
 }
 
 resource "aws_route" "my_route_public_1" {
   route_table_id = aws_route_table.my_public_route_table.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id = aws_internet_gateway.my_Internet_gateway.id
+
+  depends_on = [ aws_route_table.my_public_route_table ]
 }
 
 # resource "aws_route" "my_route_public_2" {
@@ -82,6 +88,8 @@ resource "aws_route_table" "my_private_route_table" {
 resource "aws_route_table_association" "my-rt-to-subnet-private" {
   route_table_id = aws_route_table.my_private_route_table.id
   subnet_id = aws_subnet.my_private_subnet.id
+
+  depends_on = [ aws_subnet.my_private_subnet ]
 }
 
 # resource "aws_route" "my_route_private_1" {
@@ -98,12 +106,13 @@ resource "aws_security_group" "public_EC2" {
   tags = {
     Name = "allow_ssh"
   }
+  depends_on = [ aws_vpc.my_vpc ]
 }
 
 resource "aws_vpc_security_group_egress_rule" "my_sg_public_ec2_outbound" {
   security_group_id = aws_security_group.public_EC2.id
 
-  cidr_ipv4 = aws_subnet.my_public_subnet.cidr_block
+  cidr_ipv4 = aws_vpc.my_vpc.cidr_block
   ip_protocol = "-1"
 }
 
@@ -145,6 +154,7 @@ resource "aws_instance" "public_ec2_instance" {
   subnet_id = aws_subnet.my_public_subnet.id
   security_groups = [aws_security_group.public_EC2.id]
   key_name = "key-pair-p"
+  depends_on = [ aws_subnet.my_public_subnet ]
 }
 
 
@@ -154,6 +164,7 @@ resource "aws_instance" "private_ec2_instance" {
   subnet_id = aws_subnet.my_private_subnet.id
   security_groups = [aws_security_group.private_ec2.id]
   key_name = "key-pair-p"
+  depends_on = [ aws_subnet.my_private_subnet ]
 }
 
 # resource "aws_network_interface" "myinterface" {
