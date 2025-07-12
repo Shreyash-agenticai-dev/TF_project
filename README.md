@@ -16,3 +16,4 @@ This repository provides a Terraform configuration to provision a general-purpos
   - Access to the private instance only via Bastion (SSH Jump Host)
 
 ---
+<img width="979" height="443" alt="image" src="https://github.com/user-attachments/assets/f76bfbde-299b-4bfe-9a43-ad22f26c2c64" />
